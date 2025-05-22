@@ -1,13 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Box</title>
-    <script src="jquery.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Random Box</title>
+  <script src="jquery.min.js"></script>
+  <style>
+    #container {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      border: 2px solid #ccc;
+      overflow: hidden;
+    }
+
+    #box {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: green;
+      opacity: 1;
+      transition: opacity 0.5s ease; /* menambahkan transisi untuk opacity */
+    }
+  </style>
 </head>
 <body>
-    
+
+<div id="container">
+  <div id="box"></div>
+</div>
+
+<script>
+  function moveBox() {
+    let maxX = 700;
+    let maxY = 500;
+    let X = Math.floor(Math.random() * maxX);
+    let Y = Math.floor(Math.random() * maxY);
+
+    // Mengurangi opacity (fadeOut effect)
+    $('#box').css('opacity', 0);
+
+    // Tunggu setengah detik untuk memastikan opacity berubah
+    setTimeout(function() {
+      // Pindahkan posisi kotak ke lokasi baru
+      $('#box').css({ left: X + 'px', top: Y + 'px' });
+
+      // Kembalikan opacity ke 1 (fadeIn effect)
+      $('#box').css('opacity', 1);
+    }, 500); // Tunggu 500ms agar opacity mencapai 0
+
+    // Set timeout untuk memanggil moveBox lagi setelah 2 detik
+    setTimeout(moveBox, 2000);
+  }
+
+  $(document).ready(function() {
+    moveBox();
+  });
+</script>
+
 </body>
 </html>
