@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <script src="jquery.min.js"></script>
+    <style>
+        body{
+            background-color: rgb(116, 225, 252);
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .container{
+            text-align: center;
+            border-radius: 20px;
+            width: 500px;
+            min-height: 600px;
+            margin: 100px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px #000;
+        }
+        input[type="text"]{
+            width: 300px;
+            padding: 10px;
+            border: 1px solid rgb(0, 73, 92);
+        }
+        button{
+            padding: 10px 15px;
+            border: 1px solid rgb(0, 73, 92);
+            background-color: rgb(255, 227, 135);
+            color: rgb(0, 73, 92);
+            cursor: pointer;
+        }
+        button:hover{
+            background-color: rgb(247, 208, 81);
+        }
+        table{
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        td{
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .delete-btn{
+            background-color: green;
+            color: white;
+        }
+        .delete-btn:hover{
+            background-color: rgb(247, 208, 81);
+            color: black;
+        }
+    </style>
+</head> 
+<body>
+    <div class="container">
+        <h2>My To-Do List</h2>
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <button id="addBtn">Add</button><br><br>
+        <button id="clearBtn">Clear All</button>
+        <table id="taskTable">
+            <tbody></tbody>
+        </table>
+    </div>
+    <script>
+        let tasks=[];
+        $('#addBtn').click(function () {
+            const taskText=$('#taskInput').val().trim();
+            if (!taskText)return;
+
+            if(tasks.length>=10){
+                alert('Maxium of 10 tasks allowed');
+                return;
+            }
+            tasks.push(taskText);
+            const newRow=
+                <tr style="display: none;">
+                    <td>${taskText}</td>
+                    <td><button class="delete-btn"></button></td>
+                </tr>;
+            $('#taskTable tbody').append(newRow);
+            $('#taskTable tbody tr:last').fadeIn(400);
+            $('#taskInput').val('');
+        });
+        $('#taskTable').on('click', '.delete-btn', funciton(){
+            const taskText=$(this).closest('tr').find('td:first').text().trim();
+            tasks=tasks.filter(task=>task!==taskText);
+            $(this).closest('tr').remove();
+        });
+
+        $('clearBtn').click(function(){
+            tasks=[];
+            $('#taskTable tbody').empty();
+        });
+    </script>
+</body>
+</html>
